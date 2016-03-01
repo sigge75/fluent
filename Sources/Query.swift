@@ -14,15 +14,15 @@ public class Query<Entity: EntityType> {
 
 	//var results: [EntityType]
 	public var results: [Entity] {
-		var models: [Entity] = []
+		var entities: [Entity] = []
 
 		let serializeds = Database.driver.fetch(table: self.table, filters: self.filters)
 		for serialized in serializeds {
-			let model = Entity(serialized: serialized)
-			models.append(model)
+			let entity = Entity(serialized: serialized)
+			entities.append(entity)
 		}
 
-		return models
+		return entities
 	}
 
 	public func update(data: [String: String]) {
@@ -57,7 +57,6 @@ public class Query<Entity: EntityType> {
 		return Database.driver.count(table: self.table, filters: self.filters)
 	}
 
-	//model
 	public func find(id: Int) -> Entity? {
 		return self.filter("id", "\(id)").first
 	}
@@ -65,10 +64,10 @@ public class Query<Entity: EntityType> {
 
 	/* Internal Casts */
 	///Inserts or updates the entity in the database.
-	func save(model: Entity) {
-		let data = model.serialize()
+	func save(entity: Entity) {
+		let data = entity.serialize()
 
-		if let id = model.id {
+		if let id = entity.id {
 			self.filter("id", id).update(data)
 		} else {
 			self.insert(data)
@@ -76,8 +75,8 @@ public class Query<Entity: EntityType> {
 	}
 
 	///Deletes the entity from the database.
-	func delete(model: Entity) {
-		guard let id = model.id else {
+	func delete(entity: Entity) {
+		guard let id = entity.id else {
 			return
 		}
 
