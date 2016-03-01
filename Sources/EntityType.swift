@@ -4,7 +4,7 @@
 	Override the `table()`, `serialize()`, and `init(serialized:)`
 	methods on your subclass. 
 */
-public protocol Model {
+public protocol EntityType {
 	///The entities database identifier. `nil` when not saved yet.
 	var id: String? { get }
 
@@ -21,7 +21,7 @@ public protocol Model {
 	init(serialized: [String: String])
 }
 
-extension Model {
+extension EntityType {
 
 	public func save() {
 		Query().save(self)

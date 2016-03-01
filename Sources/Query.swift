@@ -1,9 +1,9 @@
-public class Query<T: Model> {
+public class Query<T: EntityType> {
 
 	public var filters: [Filter] = []
 
 	//ends
-	//var first: Model?
+	//var first: EntityType?
 	public var first: T? {
 		if let serialized = Database.driver.fetchOne(table: self.table, filters: self.filters) {
 			return T(serialized: serialized)
@@ -12,7 +12,7 @@ public class Query<T: Model> {
 		}
 	}
 
-	//var results: [Model]
+	//var results: [EntityType]
 	public var results: [T] {
 		var models: [T] = []
 

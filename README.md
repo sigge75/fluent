@@ -88,12 +88,12 @@ Database.driver = SQLiteDriver()
 
 You are now ready to use SQLite. The database file will be stored in `Database/main.sqlite`.
 
-## Models
+## Entitiea
 
-Make your application models conform to the `Model` protocol to allow them to work with Fluent.
+Make your application models conform to the `EntityType` protocol to allow them to work with Fluent.
 
 ```swift
-public protocol Model {
+public protocol EntityType {
 	///The entities database identifier. `nil` when not saved yet.
 	var id: String? { get }
 
@@ -111,10 +111,10 @@ public protocol Model {
 }
 ```
 
-When your application models conform to the `Model` protocol, they gain access to the following helper functions.
+When your application models conform to the `EntityType` protocol, they gain access to the following helper functions.
 
 ```swift
-extension Model {
+extension EntityType {
 	public func save()
 	public func delete()
 	public static func find(id: Int) -> Self?
@@ -123,7 +123,7 @@ extension Model {
 
 ## Querying
 
-Create an instance of the query builder by passing one of your application models that conforms to the `Model` protocol.
+Create an instance of the query builder by passing one of your application models that conforms to the `EntityType` protocol.
 
 ```swift
 let query = Query<User>()
