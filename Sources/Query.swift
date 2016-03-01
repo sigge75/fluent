@@ -1,24 +1,24 @@
-public class Query<T: EntityType> {
+public class Query<Entity: EntityType> {
 
 	public var filters: [Filter] = []
 
 	//ends
 	//var first: EntityType?
-	public var first: T? {
+	public var first: Entity? {
 		if let serialized = Database.driver.fetchOne(table: self.table, filters: self.filters) {
-			return T(serialized: serialized)
+			return Entity(serialized: serialized)
 		} else {
 			return nil
 		}
 	}
 
 	//var results: [EntityType]
-	public var results: [T] {
-		var models: [T] = []
+	public var results: [Entity] {
+		var models: [Entity] = []
 
 		let serializeds = Database.driver.fetch(table: self.table, filters: self.filters)
 		for serialized in serializeds {
-			let model = T(serialized: serialized)
+			let model = Entity(serialized: serialized)
 			models.append(model)
 		}
 
@@ -58,14 +58,14 @@ public class Query<T: EntityType> {
 	}
 
 	//model
-	public func find(id: Int) -> T? {
+	public func find(id: Int) -> Entity? {
 		return self.filter("id", "\(id)").first
 	}
 
 
 	/* Internal Casts */
 	///Inserts or updates the entity in the database.
-	func save(model: T) {
+	func save(model: Entity) {
 		let data = model.serialize()
 
 		if let id = model.id {
@@ -76,7 +76,7 @@ public class Query<T: EntityType> {
 	}
 
 	///Deletes the entity from the database.
-	func delete(model: T) {
+	func delete(model: Entity) {
 		guard let id = model.id else {
 			return
 		}
@@ -114,7 +114,7 @@ public class Query<T: EntityType> {
 	}
 
 	public init() {
-		self.table = T.table
+		self.table = Entity.table
 	}
 
 	public let table: String
